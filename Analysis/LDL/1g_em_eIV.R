@@ -1,7 +1,3 @@
-#Effect modification by sex, race, T2D status, CKD status, BMI
-#Now also: (1) outputs interaction F-test p-values to their own table,
-#          (2) repeats everything for a "detreated" LDL (divided by 0.7 if llt==1)
-
 library(data.table)
 library(car)
 library(rms)
@@ -26,11 +22,6 @@ ldldat_untreated=ldldat[which(ldldat$llt==0),]
 
 
 #Helper function
-#data: the data.table/data.frame to use
-#outcome_var: name of the outcome column (e.g. "ldl_most_recent" or "ldl_detreated")
-#Returns a list with two elements:
-#   results -> the beta/SE/p table (same structure as before)
-#   pvals   -> a table of the omnibus interaction F-test p-values
 run_effect_mod <- function(data, outcome_var, modifier_var, modifier_levels, modifier_labels, is_sex_modifier=FALSE){
 	if (is_sex_modifier){
 		covariates="rcs(age_deid,4)+site"
